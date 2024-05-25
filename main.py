@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 
-def rename_categories(df, cat_name):
-    # Create a new column that renames the two categories
-    df['x'] = df.iloc[:, 0] + ' (' + df[cat_name].astype(str) + ')'
+def rename_categories(df):
+    # Create a new category that renames the two categories
+    df['x'] = df.iloc[:, 0] + ' (' + df.iloc[:, 1].astype(str) + ')'
     return df
 
 
@@ -50,8 +50,8 @@ def plot_loc_by_pct(y='perc'):
     # Read data
     df = pd.read_excel('loc_by_pct.xlsx')
 
-    # Combine the column name and the location type
-    df = rename_categories(df, 'sampled_location_type')
+    # Combine the category names
+    df = rename_categories(df)
 
     # Combine location types that are a small portion of the total
     df = create_other_category(df)
@@ -63,8 +63,8 @@ def plot_food_by_pct():
     # Read data
     df = pd.read_excel('food_by_pct.xlsx')
 
-    # Combine the column name and the food type
-    df = rename_categories(df, 'prod_category_english_nn')
+    # Combine the category names
+    df = rename_categories(df)
 
     # Combine food types that are a small portion of the total
     df = create_other_category(df, 3)
@@ -76,8 +76,8 @@ def plot_adult_by_pct():
     # Read data
     df = pd.read_excel('adult_by_pct.xlsx')
 
-    # Combine the column name and the adulterant type
-    df = rename_categories(df, 'adulterant_category')
+    # Combine the category names
+    df = rename_categories(df)
 
     # Combine adulterant types that are a small portion of the total
     df = create_other_category(df)
