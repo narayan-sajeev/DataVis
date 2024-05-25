@@ -44,12 +44,12 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     plt.title(title)
     plt.show()
 
-    plt.savefig('%s.png' % fname)
+    plt.savefig('charts/%s.png' % fname)
 
 
 def loc_by_pct():
     # Read data
-    df = pd.read_excel('loc_by_pct.xlsx')
+    df = pd.read_excel('data/loc_by_pct.xlsx')
 
     # Combine the category names
     df = rename_categories(df)
@@ -63,7 +63,7 @@ def loc_by_pct():
 
 def food_by_pct():
     # Read data
-    df = pd.read_excel('food_by_pct.xlsx')
+    df = pd.read_excel('data/food_by_pct.xlsx')
 
     # Combine the category names
     df = rename_categories(df)
@@ -77,7 +77,7 @@ def food_by_pct():
 
 def adult_by_pct():
     # Read data
-    df = pd.read_excel('adult_by_pct.xlsx')
+    df = pd.read_excel('data/adult_by_pct.xlsx')
 
     # Combine the category names
     df = rename_categories(df)
@@ -91,7 +91,7 @@ def adult_by_pct():
 
 def fail_by_food():
     # Read data
-    df = pd.read_excel('fail_by_food.xlsx')
+    df = pd.read_excel('data/fail_by_food.xlsx')
 
     # Combine food types that are a small portion of the total
     df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
@@ -102,7 +102,7 @@ def fail_by_food():
 
 def fail_by_adult():
     # Read data
-    df = pd.read_excel('fail_by_adult.xlsx')
+    df = pd.read_excel('data/fail_by_adult.xlsx')
 
     # Combine the category names
     df = rename_categories(df)
@@ -111,4 +111,4 @@ def fail_by_adult():
     df = create_other_category(df)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Adulterant Types', fail_by_adult.__name__)
+    pie_cht(df, 'Distribution of Adulterant Types by Fail Rate', fail_by_adult.__name__)
