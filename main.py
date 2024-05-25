@@ -3,6 +3,13 @@ import numpy as np
 import pandas as pd
 
 
+def get_data(func):
+    # Get file name
+    fname = 'data/%s.xlsx' % func.__name__
+    # Read data
+    return pd.read_excel(fname)
+
+
 def rename_categories(df):
     # Create a new category that renames the two categories
     df['x'] = df.iloc[:, 0] + ' (' + df.iloc[:, 1].astype(str) + ')'
@@ -50,10 +57,8 @@ def pie_cht(df, title, fname, x='x', y='perc'):
 
 
 def loc_by_pct():
-    # Get file name
-    fname = 'data/%s.xlsx' % loc_by_pct.__name__
     # Read data
-    df = pd.read_excel(fname)
+    df = get_data(loc_by_pct)
 
     # Combine the category names
     df = rename_categories(df)
@@ -66,10 +71,8 @@ def loc_by_pct():
 
 
 def food_by_pct():
-    # Get file name
-    fname = 'data/%s.xlsx' % food_by_pct.__name__
     # Read data
-    df = pd.read_excel(fname)
+    df = get_data(food_by_pct)
 
     # Combine the category names
     df = rename_categories(df)
@@ -82,10 +85,8 @@ def food_by_pct():
 
 
 def adult_by_pct():
-    # Get file name
-    fname = 'data/%s.xlsx' % adult_by_pct.__name__
     # Read data
-    df = pd.read_excel(fname)
+    df = get_data(adult_by_pct)
 
     # Combine the category names
     df = rename_categories(df)
@@ -98,10 +99,8 @@ def adult_by_pct():
 
 
 def fail_by_food():
-    # Get file name
-    fname = 'data/%s.xlsx' % fail_by_food.__name__
     # Read data
-    df = pd.read_excel(fname)
+    df = get_data(fail_by_food)
 
     # Combine food types that are a small portion of the total
     df = create_other_category(df, x='prod_category_english_nn', y='fail_rate')
@@ -111,10 +110,8 @@ def fail_by_food():
 
 
 def fail_by_adult():
-    # Get file name
-    fname = 'data/%s.xlsx' % fail_by_adult.__name__
     # Read data
-    df = pd.read_excel(fname)
+    df = get_data(fail_by_adult)
 
     # Combine the category names
     df = rename_categories(df)
