@@ -9,7 +9,7 @@ def rename_categories(df):
     return df
 
 
-def create_other_category(df, threshold=5, x='x', y='perc'):
+def create_other_category(df, threshold=3, x='x', y='perc'):
     # Convert threshold to a percentage of the total of the column
     threshold *= df[y].sum() / 100
     # Combine food types that are a small portion of the total
@@ -71,7 +71,7 @@ def food_by_pct():
     df = rename_categories(df)
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df, 3)
+    df = create_other_category(df)
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types', food_by_pct.__name__)
@@ -96,7 +96,7 @@ def fail_by_food():
     df = pd.read_excel('data/fail_by_food.xlsx')
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
+    df = create_other_category(df, x='prod_category_english_nn', y='fail_rate')
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__, x='prod_category_english_nn', y='fail_rate')
@@ -114,3 +114,20 @@ def fail_by_adult():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Adulterant Types by Fail Rate', fail_by_adult.__name__)
+
+
+def food_pct_by_prov():
+    # Read data
+    df = pd.read_excel('data/food_pct_by_prov.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
+
+    # Combine food types that are a small portion of the total
+    df = create_other_category(df, x='data_source_province', y='orig_f_perc')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Food Test Percentage by Province', food_pct_by_prov.__name__, x='data_source_province',
+            y='orig_f_perc')
+
+food_pct_by_prov()
