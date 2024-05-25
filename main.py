@@ -10,6 +10,8 @@ def rename_categories(df):
 
 
 def create_other_category(df, threshold=5, x='x', y='perc'):
+    # Convert threshold to a percentage of the total of the column
+    threshold *= df[y].sum() / 100
     # Combine food types that are a small portion of the total
     mask = df[y] < threshold
     # Set the food type to 'Other' if the food type has less than the threshold
@@ -30,19 +32,16 @@ def create_other_category(df, threshold=5, x='x', y='perc'):
     return df
 
 
-def pie_cht(df, title, fname):
-    # Set the x and y values
-    x = df.iloc[:, -2]
-    y = df.iloc[:, -1]
+def pie_cht(df, title, fname, x='x', y='perc'):
     # Create a color map
     cmap = plt.get_cmap('viridis')
     # Create a list of colors
-    colors = cmap(np.linspace(1, 0, len(x)))
+    colors = cmap(np.linspace(1, 0, len(df[x])))
 
     # Set the size of the plot
     plt.figure(figsize=(10, 6))
     # Create a pie chart
-    plt.pie(y, labels=x, colors=colors, autopct='%.1f%%')
+    plt.pie(df[y], labels=df[x], colors=colors, autopct='%.1f%%')
     # Set the title of the plot
     plt.title(title)
     plt.show()
@@ -100,7 +99,7 @@ def fail_by_food():
     df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__)
+    pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__, x='prod_category_english_nn', y='fail_rate')
 
 
 def fail_by_adult():
