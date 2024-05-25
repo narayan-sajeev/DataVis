@@ -30,16 +30,19 @@ def create_other_category(df, threshold=5, x='x', y='perc'):
     return df
 
 
-def pie_cht(df, title, fname, x='x', y='perc'):
+def pie_cht(df, title, fname):
+    # Set the x and y values
+    x = df.iloc[:, -2]
+    y = df.iloc[:, -1]
     # Create a color map
     cmap = plt.get_cmap('viridis')
     # Create a list of colors
-    colors = cmap(np.linspace(1, 0, len(df[x])))
+    colors = cmap(np.linspace(1, 0, len(x)))
 
     # Set the size of the plot
     plt.figure(figsize=(10, 6))
     # Create a pie chart
-    plt.pie(df[y], labels=df[x], colors=colors, autopct='%.1f%%')
+    plt.pie(y, labels=x, colors=colors, autopct='%.1f%%')
     # Set the title of the plot
     plt.title(title)
     plt.show()
@@ -97,7 +100,7 @@ def fail_by_food():
     df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__, 'prod_category_english_nn', 'fail_rate')
+    pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__)
 
 
 def fail_by_adult():
