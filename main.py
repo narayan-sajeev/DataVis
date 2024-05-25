@@ -30,7 +30,7 @@ def create_other_category(df, threshold=5, x='x', y='perc'):
     return df
 
 
-def pie_cht(df, title, x='x', y='perc'):
+def pie_cht(df, title, fname, x='x', y='perc'):
     # Create a color map
     cmap = plt.get_cmap('viridis')
     # Create a list of colors
@@ -44,6 +44,8 @@ def pie_cht(df, title, x='x', y='perc'):
     plt.title(title)
     plt.show()
 
+    plt.savefig('%s.png' % fname)
+
 
 def loc_by_pct():
     # Read data
@@ -56,7 +58,7 @@ def loc_by_pct():
     df = create_other_category(df)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Sampled Location Types')
+    pie_cht(df, 'Distribution of Sampled Location Types', loc_by_pct.__name__)
 
 
 def food_by_pct():
@@ -70,7 +72,7 @@ def food_by_pct():
     df = create_other_category(df, 3)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Types')
+    pie_cht(df, 'Distribution of Food Types', food_by_pct.__name__)
 
 
 def adult_by_pct():
@@ -84,7 +86,7 @@ def adult_by_pct():
     df = create_other_category(df)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Adulterant Types')
+    pie_cht(df, 'Distribution of Adulterant Types', adult_by_pct.__name__)
 
 
 def fail_by_food():
@@ -95,7 +97,7 @@ def fail_by_food():
     df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Types', x='prod_category_english_nn', y='fail_rate')
+    pie_cht(df, 'Distribution of Food Types', fail_by_food.__name__, 'prod_category_english_nn', 'fail_rate')
 
 
 def fail_by_adult():
@@ -109,4 +111,4 @@ def fail_by_adult():
     df = create_other_category(df)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Adulterant Types')
+    pie_cht(df, 'Distribution of Adulterant Types', fail_by_adult.__name__)
