@@ -30,7 +30,6 @@ def create_other_category(df, threshold=5, x='x', y='perc'):
     return df
 
 
-# Create a pie chart
 def pie_cht(df, title, x='x', y='perc'):
     # Create a color map
     cmap = plt.get_cmap('viridis')
@@ -46,7 +45,7 @@ def pie_cht(df, title, x='x', y='perc'):
     plt.show()
 
 
-def plot_loc_by_pct():
+def loc_by_pct():
     # Read data
     df = pd.read_excel('loc_by_pct.xlsx')
 
@@ -60,7 +59,7 @@ def plot_loc_by_pct():
     pie_cht(df, 'Distribution of Sampled Location Types')
 
 
-def plot_food_by_pct():
+def food_by_pct():
     # Read data
     df = pd.read_excel('food_by_pct.xlsx')
 
@@ -74,7 +73,7 @@ def plot_food_by_pct():
     pie_cht(df, 'Distribution of Food Types')
 
 
-def plot_adult_by_pct():
+def adult_by_pct():
     # Read data
     df = pd.read_excel('adult_by_pct.xlsx')
 
@@ -88,7 +87,7 @@ def plot_adult_by_pct():
     pie_cht(df, 'Distribution of Adulterant Types')
 
 
-def plot_fail_by_food():
+def fail_by_food():
     # Read data
     df = pd.read_excel('fail_by_food.xlsx')
 
@@ -99,7 +98,7 @@ def plot_fail_by_food():
     pie_cht(df, 'Distribution of Food Types', x='prod_category_english_nn', y='fail_rate')
 
 
-def plot_fail_by_adult():
+def fail_by_adult():
     # Read data
     df = pd.read_excel('fail_by_adult.xlsx')
 
