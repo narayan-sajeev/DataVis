@@ -51,9 +51,10 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     plt.pie(df[y], labels=df[x], colors=colors, autopct='%.1f%%')
     # Set the title of the plot
     plt.title(title)
-    plt.show()
-
+    # Save the plot
     plt.savefig('charts/%s.png' % fname)
+
+    plt.show()
 
 
 def loc_by_pct():
