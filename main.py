@@ -56,6 +56,7 @@ def plot_loc_by_pct(y='perc'):
     # Combine location types that are a small portion of the total
     df = create_other_category(df)
 
+    # Create a pie chart
     pie_cht(df, 'Distribution of Sampled Location Types')
 
 
@@ -69,6 +70,7 @@ def plot_food_by_pct():
     # Combine food types that are a small portion of the total
     df = create_other_category(df, 3)
 
+    # Create a pie chart
     pie_cht(df, 'Distribution of Food Types')
 
 
@@ -82,6 +84,7 @@ def plot_adult_by_pct():
     # Combine adulterant types that are a small portion of the total
     df = create_other_category(df)
 
+    # Create a pie chart
     pie_cht(df, 'Distribution of Adulterant Types')
 
 
@@ -90,11 +93,13 @@ def plot_fail_by_food():
     df = pd.read_excel('fail_by_food.xlsx')
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df)
+    df = create_other_category(df, threshold=3, x='prod_category_english_nn', y='fail_rate')
 
-    pie_cht(df, 'Distribution of Food Types with Failures')
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Food Types', x='prod_category_english_nn', y='fail_rate')
 
 
 plot_loc_by_pct()
 plot_food_by_pct()
 plot_adult_by_pct()
+plot_fail_by_food()
