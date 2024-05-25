@@ -107,7 +107,7 @@ def food_by_fail():
     df = create_other_category(df, 'prod_category_english_nn', 'fail_rate')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Types by Failure Rates', food_by_fail.__name__, 'prod_category_english_nn',
+    pie_cht(df, 'Distribution of Food Types by Failure Rate', food_by_fail.__name__, 'prod_category_english_nn',
             'fail_rate')
 
 
@@ -122,7 +122,7 @@ def adult_by_fail():
     df = create_other_category(df)
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Adulterant Types by Failure Rates', adult_by_fail.__name__)
+    pie_cht(df, 'Distribution of Adulterant Types by Failure Rate', adult_by_fail.__name__)
 
 
 def prov_by_food_pct():
@@ -166,15 +166,15 @@ def prov_by_recs():
     df = create_other_category(df, 'province', 'curr_recs')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Provinces by Recommendations', prov_by_recs.__name__, 'province',
+    pie_cht(df, 'Distribution of Provinces by Recommendation', prov_by_recs.__name__, 'province',
             'curr_recs')
 
 
-# loc_by_pct()
-# food_by_pct()
-# adult_by_pct()
-# food_by_fail()
-# adult_by_fail()
-# prov_by_food_pct()
-# prov_by_food_count()
+loc_by_pct()
+food_by_pct()
+adult_by_pct()
+food_by_fail()
+adult_by_fail()
+prov_by_food_pct()
+prov_by_food_count()
 prov_by_recs()
