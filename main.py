@@ -43,7 +43,7 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     # Create a color map
     cmap = plt.get_cmap('viridis')
     # Create a list of colors
-    colors = cmap(np.linspace(1, 0, len(df[x])))
+    colors = cmap(np.linspace(1, 0.25, len(df[x])))
 
     # Set the size of the plot
     plt.figure(figsize=(10, 6))
