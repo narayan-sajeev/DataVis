@@ -46,7 +46,7 @@ def pie_cht(df, title, x='x', y='perc'):
     plt.show()
 
 
-def plot_loc_by_pct(y='perc'):
+def plot_loc_by_pct():
     # Read data
     df = pd.read_excel('loc_by_pct.xlsx')
 
