@@ -125,9 +125,9 @@ def adult_by_fail():
     pie_cht(df, 'Distribution of Adulterant Types by Failure Rates', adult_by_fail.__name__)
 
 
-def food_pct_by_prov():
+def prov_by_food_pct():
     # Read data
-    df = pd.read_excel('data/food_test_by_prov.xlsx')
+    df = pd.read_excel('data/prov_by_food_test.xlsx')
 
     # Group by province and calculate the sum
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
@@ -136,13 +136,13 @@ def food_pct_by_prov():
     df = create_other_category(df, x='data_source_province', y='orig_f_perc')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Test Percentage by Province', food_pct_by_prov.__name__, 'data_source_province',
+    pie_cht(df, 'Distribution of Provinces by Food Test Percentage', prov_by_food_pct.__name__, 'data_source_province',
             'orig_f_perc')
 
 
-def food_count_by_prov():
+def prov_by_food_count():
     # Read data
-    df = pd.read_excel('data/food_test_by_prov.xlsx')
+    df = pd.read_excel('data/prov_by_food_test.xlsx')
 
     # Group by province and calculate the sum
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
@@ -151,7 +151,7 @@ def food_count_by_prov():
     df = create_other_category(df, x='data_source_province', y='orig_count')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Food Test Count by Province', food_count_by_prov.__name__, 'data_source_province',
+    pie_cht(df, 'Distribution of Provinces by Food Test Count', prov_by_food_count.__name__, 'data_source_province',
             'orig_count')
 
 
@@ -160,5 +160,5 @@ food_by_pct()
 adult_by_pct()
 food_by_fail()
 adult_by_fail()
-food_pct_by_prov()
-food_count_by_prov()
+prov_by_food_pct()
+prov_by_food_count()
