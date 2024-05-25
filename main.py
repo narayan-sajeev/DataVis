@@ -98,6 +98,7 @@ def plot_fail_by_food():
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types', x='prod_category_english_nn', y='fail_rate')
 
+
 def plot_fail_by_adult():
     # Read data
     df = pd.read_excel('fail_by_adult.xlsx')
@@ -110,10 +111,3 @@ def plot_fail_by_adult():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Adulterant Types')
-
-
-plot_loc_by_pct()
-plot_food_by_pct()
-plot_adult_by_pct()
-plot_fail_by_food()
-plot_fail_by_adult()
