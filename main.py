@@ -16,7 +16,7 @@ def rename_categories(df):
     return df
 
 
-def create_other_category(df, threshold=3, x='x', y='perc'):
+def create_other_category(df, x='x', y='perc', threshold=3):
     # Convert threshold to a percentage of the total of the column
     threshold *= df[y].sum() / 100
     # Combine food types that are a small portion of the total
@@ -104,7 +104,7 @@ def food_by_fail():
     df = get_data(food_by_fail)
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df, x='prod_category_english_nn', y='fail_rate')
+    df = create_other_category(df, 'prod_category_english_nn', 'fail_rate')
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types by Failure Rates', food_by_fail.__name__, 'prod_category_english_nn',
@@ -133,7 +133,7 @@ def prov_by_food_pct():
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df, x='data_source_province', y='orig_f_perc')
+    df = create_other_category(df, 'data_source_province', 'orig_f_perc')
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Provinces by Food Test Percentage', prov_by_food_pct.__name__, 'data_source_province',
@@ -148,17 +148,33 @@ def prov_by_food_count():
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
 
     # Combine food types that are a small portion of the total
-    df = create_other_category(df, x='data_source_province', y='orig_count')
+    df = create_other_category(df, 'data_source_province', 'orig_count')
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Provinces by Food Test Count', prov_by_food_count.__name__, 'data_source_province',
             'orig_count')
 
 
-loc_by_pct()
-food_by_pct()
-adult_by_pct()
-food_by_fail()
-adult_by_fail()
-prov_by_food_pct()
-prov_by_food_count()
+def prov_by_recs():
+    # Read data
+    df = get_data(prov_by_recs)
+
+    # Combine the category names
+    df = rename_categories(df)
+
+    # Combine food types that are a small portion of the total
+    df = create_other_category(df, 'province', 'curr_recs')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Provinces by Recommendations', prov_by_recs.__name__, 'province',
+            'curr_recs')
+
+
+# loc_by_pct()
+# food_by_pct()
+# adult_by_pct()
+# food_by_fail()
+# adult_by_fail()
+# prov_by_food_pct()
+# prov_by_food_count()
+prov_by_recs()
