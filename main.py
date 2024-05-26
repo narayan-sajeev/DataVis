@@ -333,7 +333,7 @@ def prov_by_adult():
     idx = df.columns.get_loc(df.columns[df.columns.str.contains('contaminant')][0])
 
     # Loop through the columns
-    for curr_col in df.columns[idx + 1:]:
+    for curr_col in df.columns[idx:]:
         # Retrieve the 2 columns
         df2 = df[[col1, curr_col]]
 
