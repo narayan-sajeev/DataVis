@@ -37,6 +37,10 @@ def create_other_category(df, x='x', y='perc', threshold=3):
     # Add 'Other' at the end regardless of its value
     df = pd.concat([df, df_other], ignore_index=True)
 
+    # Remove 'Other' row if it has a value of 0
+    if df.iloc[-1][y] == 0:
+        df = df.iloc[:-1]
+
     return df
 
 
