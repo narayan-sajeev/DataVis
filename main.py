@@ -432,3 +432,23 @@ def adult_in_prov():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y', adult_in_prov)
+
+
+def adult_in_all_food():
+    # Read data
+    df = get_data(food_by_adult)
+
+    # Find the sum of each column
+    df = df.sum().reset_index()
+
+    # Set the column names
+    df.columns = ['x', 'y']
+
+    # Remove the first rows
+    df = df.iloc[2:]
+
+    # Combine location types that are a small portion of the total
+    df = create_other_category(df, 'x', 'y')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Adulterant Types in All Food', adult_in_all_food.__name__, 'x', 'y')
