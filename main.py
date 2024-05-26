@@ -61,7 +61,7 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     # Retrieve the name of the folder to be saved into
     folder = fname.split('_')[0]
     # Save the plot
-    plt.savefig('charts/%s/%s.png' % (folder, fname))
+    # plt.savefig('charts/%s/%s.png' % (folder, fname))
     plt.show()
     # Wait before creating the next chart
     plt.pause(2)
