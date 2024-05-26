@@ -461,7 +461,7 @@ def food_by_all_adult():
     # Set the index
     df.set_index('prod_category_english_nn', inplace=True)
 
-    # Find the sum of each row, excluding the first column
+    # Find the sum of each row
     df = df.sum(axis=1).reset_index()
 
     # Set the column names
@@ -481,7 +481,7 @@ def food_by_all_prov():
     # Group by province and calculate the sum
     df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
 
-    # Find the sum of each row, excluding the first column
+    # Find the sum of each column
     df = df.sum().reset_index()
 
     # Set the column names
@@ -495,3 +495,29 @@ def food_by_all_prov():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types by All Provinces', food_by_all_prov.__name__, 'x', 'y')
+
+
+def prov_by_all_food():
+    # Read data
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Set the index
+    df.set_index('level_1', inplace=True)
+
+    # Find the sum of each row
+    df = df.sum(axis=1).reset_index()
+
+    # Set the column names
+    df.columns = ['x', 'y']
+
+    # Remove the first row
+    df = df.iloc[1:]
+
+    # Combine location types that are a small portion of the total
+    df = create_other_category(df, 'x', 'y')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Provinces by All Foods', prov_by_all_food.__name__, 'x', 'y')
