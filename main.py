@@ -278,9 +278,9 @@ def adult_by_food():
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
 
 
-def prov_by_food():
+def prov_by_food_adult():
     # Read data
-    df = get_data(prov_by_food)
+    df = get_data(prov_by_food_adult)
 
     # Group by province and calculate the sum
     df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
@@ -290,11 +290,6 @@ def prov_by_food():
 
     # Loop through the columns
     for curr_col in df.columns[1:]:
-
-        # Stop once adulterants are reached
-        if 'contaminant' in curr_col.lower():
-            return
-
         # Retrieve the 2 columns
         df2 = df[[col1, curr_col]]
 
@@ -324,4 +319,4 @@ def prov_by_food():
 # prov_by_recs()
 # food_by_adult()
 # adult_by_food()
-prov_by_food()
+prov_by_food_adult()
