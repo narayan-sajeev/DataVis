@@ -350,6 +350,46 @@ def food_by_prov():
         pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y')
 
 
+def adult_by_prov():
+    # Read data
+    df = get_data(prov_by_food_adult)
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Loop through the rows
+    for _, row in df.iterrows():
+        # Create a new DataFrame
+        df2 = pd.DataFrame(row).reset_index()
+
+        # Set the column names
+        df2.columns = ['x', 'y']
+
+        # Retrieve the food
+        food = df2['y'][0]
+
+        # Find the index of the cell containing 'contaminant'
+        idx = df2[df2['x'].str.contains('contaminant')].index[0]
+
+        # Remove the first rows
+        df2 = df2.iloc[idx:]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, 'x', 'y')
+
+        # Capitalize the current column
+        title = ' '.join([_.capitalize() for _ in food.split()])
+
+        # Retrieve column name
+        col_name = '_'.join([_.lower() for _ in food.split()])
+
+        # Set file name
+        fname = 'adult_by_%s' % col_name
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
+
+
 # loc_by_pct()
 # food_by_pct()
 # adult_by_pct()
@@ -361,4 +401,5 @@ def food_by_prov():
 # food_by_adult()
 # adult_by_food()
 # prov_by_food_adult()
-food_by_prov()
+# food_by_prov()
+adult_by_prov()
