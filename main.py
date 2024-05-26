@@ -44,7 +44,7 @@ def create_other_category(df, x='x', y='perc', threshold=3):
     return df
 
 
-def pie_cht(df, title, fname, x='x', y='perc'):
+def pie_cht(df, title, fname, x='x', y='perc', subfolder=None):
     # Create a color map
     cmap = plt.get_cmap()
     # Create a list of colors
@@ -58,10 +58,15 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     plt.pie(df[y], labels=labels, colors=colors, autopct='%.1f%%')
     # Set the title of the plot
     plt.title(title)
-    # Retrieve the name of the folder to be saved into
+    # Retrieve the name of the folder to save the plot
     folder = fname.split('_')[0]
-    # Save the plot
-    # plt.savefig('charts/%s/%s.png' % (folder, fname))
+    # If there are no special instructions on where to save the plot
+    if not subfolder:
+        # Save the plot
+        plt.savefig('charts/%s/%s.png' % (folder, fname))
+    else:
+        # Save the plot
+        plt.savefig('charts/%s/%s/%s.png' % (folder, subfolder.__name__, fname))
     plt.show()
     # Wait before creating the next chart
     plt.pause(2)
@@ -205,7 +210,7 @@ def food_by_adult():
         fname = 'food_by_%s' % col_name
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col)
+        pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col, food_by_adult)
 
 
 def format_title(title):
@@ -244,7 +249,7 @@ def format_title(title):
     return title
 
 
-def adult_by_food():
+def adult_in_food():
     # Read data
     df = get_data(food_by_adult)
 
@@ -275,12 +280,12 @@ def adult_by_food():
         fname = 'adult_in_%s' % row_name
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
+        pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y', adult_in_food)
 
 
-def prov_by_food_adult():
+def prov_by_food():
     # Read data
-    df = get_data(prov_by_food_adult)
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
 
     # Group by province and calculate the sum
     df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
@@ -290,6 +295,11 @@ def prov_by_food_adult():
 
     # Loop through the columns
     for curr_col in df.columns[1:]:
+
+        # Stop once adulterants are reached
+        if 'contaminant' in curr_col.lower():
+            return
+
         # Retrieve the 2 columns
         df2 = df[[col1, curr_col]]
 
@@ -306,12 +316,46 @@ def prov_by_food_adult():
         fname = 'prov_by_%s' % col_name
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col)
+        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_food)
 
 
-def food_by_prov():
+def prov_by_adult():
     # Read data
-    df = get_data(prov_by_food_adult)
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Retrieve first column
+    col1 = df.columns[0]
+
+    # Find the index of the column header containing 'contaminant'
+    idx = df.columns.get_loc(df.columns[df.columns.str.contains('contaminant')][0])
+
+    # Loop through the columns
+    for curr_col in df.columns[idx + 1:]:
+        # Retrieve the 2 columns
+        df2 = df[[col1, curr_col]]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, col1, curr_col)
+
+        # Retrieve the title
+        title = format_title(curr_col)
+
+        # Retrieve column name
+        col_name = '_'.join([_.lower() for _ in title.split()])
+
+        # Set file name
+        fname = 'prov_by_%s' % col_name
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_adult)
+
+
+def food_in_prov():
+    # Read data
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
 
     # Group by province and calculate the sum
     df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
@@ -347,12 +391,12 @@ def food_by_prov():
         fname = 'food_in_%s' % col_name
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y')
+        pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y', food_in_prov)
 
 
-def adult_by_prov():
+def adult_in_prov():
     # Read data
-    df = get_data(prov_by_food_adult)
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
 
     # Group by province and calculate the sum
     df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
@@ -387,4 +431,4 @@ def adult_by_prov():
         fname = 'adult_in_%s' % col_name
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
+        pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y', adult_in_prov)
