@@ -208,6 +208,42 @@ def food_by_adult():
         pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col)
 
 
+def format_title(title):
+    # Remove underscores
+    title = ' '.join(title.split('_'))
+
+    # Remove comma
+    title = ''.join(title.split(','))
+
+    # Capitalize
+    title = ' '.join([_.capitalize() for _ in title.split()])
+
+    # Split the title into words
+    words = title.split()
+
+    # Loop through each word
+    for word in words:
+        # If that word repeats
+        if words.count(word) > 1:
+            # Find the index of the word
+            i = words.index(word)
+            # Remove the repeated words
+            new_words = words[:i + 1]
+            # Update the new words
+            words = list(new_words)
+
+    # Pluralize the last word
+    last = Pluralizer().pluralize(words[-1])
+
+    # Replace the last word
+    words[-1] = ''.join(last)
+
+    # Update the title
+    title = ' '.join(words)
+
+    return title
+
+
 def adult_by_food():
     # Read data
     df = get_data(food_by_adult)
@@ -229,37 +265,8 @@ def adult_by_food():
         # Combine values that are a small portion of the total
         df2 = create_other_category(df2, 'x', 'y')
 
-        # Remove underscores
-        title = ' '.join(food.split('_'))
-
-        # Remove comma
-        title = ''.join(title.split(','))
-
-        # Capitalize the current row
-        title = ' '.join([_.capitalize() for _ in title.split()])
-
-        # # Split the title into words
-        words = title.split()
-
-        # Loop through each word
-        for word in words:
-            # If that word repeats
-            if words.count(word) > 1:
-                # Find the index of the word
-                i = words.index(word)
-                # Remove the repeated words
-                new_words = words[:i + 1]
-                # Update the new words
-                words = list(new_words)
-
-        # Pluralize the last word
-        last = Pluralizer().pluralize(words[-1])
-
-        # Replace the last word
-        words[-1] = ''.join(last)
-
-        # Update the title
-        title = ' '.join(words)
+        # Retrieve the title
+        title = format_title(food)
 
         # Retrieve row name
         row_name = '_'.join([_.lower() for _ in title.split()])
@@ -294,43 +301,14 @@ def prov_by_food():
         # Combine values that are a small portion of the total
         df2 = create_other_category(df2, col1, curr_col)
 
-        # Remove underscores
-        title = ' '.join(curr_col.split('_'))
-
-        # Remove comma
-        title = ''.join(title.split(','))
-
-        # Capitalize the current row
-        title = ' '.join([_.capitalize() for _ in title.split()])
-
-        # Split the title into words
-        words = title.split()
-
-        # Loop through each word
-        for word in words:
-            # If that word repeats
-            if words.count(word) > 1:
-                # Find the index of the word
-                i = words.index(word)
-                # Remove the repeated words
-                new_words = words[:i + 1]
-                # Update the new words
-                words = list(new_words)
-
-        # Pluralize the last word
-        last = Pluralizer().pluralize(words[-1])
-
-        # Replace the last word
-        words[-1] = ''.join(last)
-
-        # Update the title
-        title = ' '.join(words)
+        # Retrieve the title
+        title = format_title(curr_col)
 
         # Retrieve column name
-        format_col = '_'.join([_.lower() for _ in title.split()])
+        col_name = '_'.join([_.lower() for _ in title.split()])
 
         # Set file name
-        fname = 'prov_by_%s' % format_col
+        fname = 'prov_by_%s' % col_name
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col)
