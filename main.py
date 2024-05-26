@@ -254,6 +254,7 @@ def adult_by_food():
 
         # Pluralize the last word
         last = Pluralizer().pluralize(words[-1])
+        
         # Replace the last word
         words[-1] = ''.join(last)
 
