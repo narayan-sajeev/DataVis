@@ -344,7 +344,7 @@ def food_by_prov():
         col_name = '_'.join([_.lower() for _ in food.split()])
 
         # Set file name
-        fname = 'food_by_%s' % col_name
+        fname = 'food_in_%s' % col_name
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y')
@@ -384,7 +384,7 @@ def adult_by_prov():
         col_name = '_'.join([_.lower() for _ in food.split()])
 
         # Set file name
-        fname = 'adult_by_%s' % col_name
+        fname = 'adult_in_%s' % col_name
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
