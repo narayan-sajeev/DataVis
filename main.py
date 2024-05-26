@@ -196,7 +196,7 @@ def food_by_adult():
         fname = 'food_by_%s' % format_col
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of %s by Food' % title, fname, col1, curr_col)
+        pie_cht(df2, 'Distribution of Food by %s' % title, fname, col1, curr_col)
 
 
 loc_by_pct()
@@ -207,3 +207,4 @@ adult_by_fail()
 prov_by_food_pct()
 prov_by_food_count()
 prov_by_recs()
+food_by_adult()
