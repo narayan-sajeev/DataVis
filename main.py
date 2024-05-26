@@ -27,7 +27,7 @@ def create_other_category(df, x='x', y='perc', threshold=3):
     # Set the food type to 'Other' if the food type has less than the threshold
     df.loc[mask, x] = 'Other'
     # Group by the food type and sum the percentage
-    df = df.groupby(x).sum(numeric_only=True).reset_index()
+    df = df.groupby(x).sum(numeric_only=False).reset_index()
 
     # Separate 'Other' from the rest
     df_other = df[df[x] == 'Other']
@@ -83,6 +83,8 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     # Save the plot
     plt.savefig('charts/%s.png' % fname)
     plt.show()
+    # Wait before creating the next chart
+    plt.pause(2)
 
 
 def loc_by_pct():
