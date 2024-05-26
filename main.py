@@ -313,6 +313,9 @@ def food_by_prov():
     # Read data
     df = get_data(prov_by_food_adult)
 
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
     # Loop through the rows
     for _, row in df.iterrows():
         # Create a new DataFrame
