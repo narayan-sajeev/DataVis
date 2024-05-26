@@ -47,8 +47,8 @@ def pie_cht(df, title, fname, x='x', y='perc'):
 
     # Set the size of the plot
     plt.figure(figsize=(10, 6))
-    # Capitalize labels
-    labels = [_.capitalize() for _ in df[x]]
+    # Capitalize the labels
+    labels = [' '.join(label.split('_')).title() for label in df[x]]
     # Create a pie chart
     plt.pie(df[y], labels=labels, colors=colors, autopct='%.1f%%')
     # Set the title of the plot
