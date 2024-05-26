@@ -472,3 +472,26 @@ def food_by_all_adult():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Food Types by All Adulterants', food_by_all_adult.__name__, 'x', 'y')
+
+
+def food_by_all_prov():
+    # Read data
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Find the sum of each row, excluding the first column
+    df = df.sum().reset_index()
+
+    # Set the column names
+    df.columns = ['x', 'y']
+
+    # Remove the first row
+    df = df.iloc[1:]
+
+    # Combine location types that are a small portion of the total
+    df = create_other_category(df, 'x', 'y')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Food Types by All Provinces', food_by_all_prov.__name__, 'x', 'y')
