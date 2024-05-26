@@ -53,7 +53,6 @@ def pie_cht(df, title, fname, x='x', y='perc'):
     plt.title(title)
     # Save the plot
     plt.savefig('charts/%s.png' % fname)
-
     plt.show()
 
 
@@ -193,8 +192,6 @@ def food_by_adult():
 
         # Set file name
         fname = 'food_by_%s' % format_col
-
-        print(fname)
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of %s by Food' % title, fname, col1, curr_col)
