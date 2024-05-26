@@ -199,10 +199,10 @@ def food_by_adult():
         title = ' '.join([_.capitalize() for _ in curr_col.split()])
 
         # Retrieve column name
-        format_col = '_'.join([_.lower() for _ in curr_col.split()])
+        col_name = '_'.join([_.lower() for _ in curr_col.split()])
 
         # Set file name
-        fname = 'food_by_%s' % format_col
+        fname = 'food_by_%s' % col_name
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col)
