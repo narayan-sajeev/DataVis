@@ -521,3 +521,32 @@ def prov_by_all_food():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Provinces by All Foods', prov_by_all_food.__name__, 'x', 'y')
+
+
+def adult_in_all_prov():
+    # Read data
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Find the index of the column header containing 'contaminant'
+    idx = df.columns.get_loc(df.columns[df.columns.str.contains('contaminant')][0])
+
+    # Slice the DataFrame
+    df = df.iloc[:, idx:]
+
+    # Find the sum of each column
+    df = df.sum().reset_index()
+
+    # Set the column names
+    df.columns = ['x', 'y']
+
+    # Remove the first row
+    df = df.iloc[1:]
+
+    # Combine location types that are a small portion of the total
+    df = create_other_category(df, 'x', 'y')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Adulterants in All Provinces', adult_in_all_prov.__name__, 'x', 'y')
