@@ -388,18 +388,3 @@ def adult_by_prov():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
-
-
-# loc_by_pct()
-# food_by_pct()
-# adult_by_pct()
-# food_by_fail()
-# adult_by_fail()
-# prov_by_food_pct()
-# prov_by_food_count()
-# prov_by_recs()
-# food_by_adult()
-# adult_by_food()
-# prov_by_food_adult()
-# food_by_prov()
-adult_by_prov()
