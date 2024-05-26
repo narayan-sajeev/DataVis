@@ -309,6 +309,44 @@ def prov_by_food_adult():
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col)
 
 
+def food_by_prov():
+    # Read data
+    df = get_data(prov_by_food_adult)
+
+    # Loop through the rows
+    for _, row in df.iterrows():
+        # Create a new DataFrame
+        df2 = pd.DataFrame(row).reset_index()
+
+        # Set the column names
+        df2.columns = ['x', 'y']
+
+        # Retrieve the food
+        food = df2['y'][0]
+
+        # Stop once adulterants are reached
+        if 'contaminant' in food.lower():
+            return
+
+        # Remove the first rows
+        df2 = df2.iloc[2:]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, 'x', 'y')
+
+        # Capitalize the current column
+        title = ' '.join([_.capitalize() for _ in food.split()])
+
+        # Retrieve column name
+        col_name = '_'.join([_.lower() for _ in food.split()])
+
+        # Set file name
+        fname = 'food_by_%s' % col_name
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y')
+
+
 # loc_by_pct()
 # food_by_pct()
 # adult_by_pct()
@@ -319,4 +357,5 @@ def prov_by_food_adult():
 # prov_by_recs()
 # food_by_adult()
 # adult_by_food()
-prov_by_food_adult()
+# prov_by_food_adult()
+food_by_prov()
