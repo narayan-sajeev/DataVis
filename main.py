@@ -319,40 +319,6 @@ def prov_by_food():
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_food)
 
 
-def prov_by_adult():
-    # Read data
-    df = pd.read_excel('data/prov_by_food_adult.xlsx')
-
-    # Group by province and calculate the sum
-    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
-
-    # Retrieve first column
-    col1 = df.columns[0]
-
-    # Find the index of the column header containing 'contaminant'
-    idx = df.columns.get_loc(df.columns[df.columns.str.contains('contaminant')][0])
-
-    # Loop through the columns
-    for curr_col in df.columns[idx:]:
-        # Retrieve the 2 columns
-        df2 = df[[col1, curr_col]]
-
-        # Combine values that are a small portion of the total
-        df2 = create_other_category(df2, col1, curr_col)
-
-        # Retrieve the title
-        title = format_title(curr_col)
-
-        # Retrieve column name
-        col_name = '_'.join([_.lower() for _ in title.split()])
-
-        # Set file name
-        fname = 'prov_by_%s' % col_name
-
-        # Create a pie chart
-        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_adult)
-
-
 def food_in_prov():
     # Read data
     df = pd.read_excel('data/prov_by_food_adult.xlsx')
@@ -392,6 +358,40 @@ def food_in_prov():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y', food_in_prov)
+
+
+def prov_by_adult():
+    # Read data
+    df = pd.read_excel('data/prov_by_food_adult.xlsx')
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Retrieve first column
+    col1 = df.columns[0]
+
+    # Find the index of the column header containing 'contaminant'
+    idx = df.columns.get_loc(df.columns[df.columns.str.contains('contaminant')][0])
+
+    # Loop through the columns
+    for curr_col in df.columns[idx:]:
+        # Retrieve the 2 columns
+        df2 = df[[col1, curr_col]]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, col1, curr_col)
+
+        # Retrieve the title
+        title = format_title(curr_col)
+
+        # Retrieve column name
+        col_name = '_'.join([_.lower() for _ in title.split()])
+
+        # Set file name
+        fname = 'prov_by_%s' % col_name
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_adult)
 
 
 def adult_in_prov():
