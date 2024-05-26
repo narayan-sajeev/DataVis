@@ -205,7 +205,7 @@ def food_by_adult():
         fname = 'food_by_%s' % format_col
 
         # Create a pie chart
-        pie_cht(df2, 'Distribution of Food by %s' % title, fname, col1, curr_col)
+        pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col)
 
 
 def adult_by_food():
@@ -254,7 +254,7 @@ def adult_by_food():
 
         # Pluralize the last word
         last = Pluralizer().pluralize(words[-1])
-        
+
         # Replace the last word
         words[-1] = ''.join(last)
 
