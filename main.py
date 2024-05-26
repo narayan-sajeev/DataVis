@@ -19,7 +19,7 @@ def rename_categories(df):
 def create_other_category(df, x='x', y='perc', threshold=3):
     # Convert threshold to a percentage of the total of the column
     threshold *= df[y].sum() / 100
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     mask = df[y] < threshold
     # Set the food type to 'Other' if the food type has less than the threshold
     df.loc[mask, x] = 'Other'
@@ -78,7 +78,7 @@ def food_by_pct():
     # Combine the category names
     df = rename_categories(df)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df)
 
     # Create a pie chart
@@ -103,7 +103,7 @@ def food_by_fail():
     # Read data
     df = get_data(food_by_fail)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df, 'prod_category_english_nn', 'fail_rate')
 
     # Create a pie chart
@@ -118,7 +118,7 @@ def adult_by_fail():
     # Combine the category names
     df = rename_categories(df)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df)
 
     # Create a pie chart
@@ -132,7 +132,7 @@ def prov_by_food_pct():
     # Group by province and calculate the sum
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df, 'data_source_province', 'orig_f_perc')
 
     # Create a pie chart
@@ -147,7 +147,7 @@ def prov_by_food_count():
     # Group by province and calculate the sum
     df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df, 'data_source_province', 'orig_count')
 
     # Create a pie chart
@@ -162,12 +162,42 @@ def prov_by_recs():
     # Combine the category names
     df = rename_categories(df)
 
-    # Combine food types that are a small portion of the total
+    # Combine values that are a small portion of the total
     df = create_other_category(df, 'province', 'curr_recs')
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Provinces by Recommendation', prov_by_recs.__name__, 'province',
             'curr_recs')
+
+
+def food_by_adult():
+    # Read data
+    df = get_data(food_by_adult)
+
+    # Retrieve first column
+    col1 = df.columns[0]
+
+    # Loop through the columns
+    for curr_col in df.columns[1:]:
+        # Retrieve the 2 columns
+        df2 = df[[col1, curr_col]]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, col1, curr_col)
+
+        # Capitalize the current column
+        title = ' '.join([_.capitalize() for _ in curr_col.split()])
+
+        # Retrieve column name
+        format_col = '_'.join([_.lower() for _ in curr_col.split()])
+
+        # Set file name
+        fname = 'food_by_%s' % format_col
+
+        print(fname)
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of %s by Food' % title, fname, col1, curr_col)
 
 
 loc_by_pct()
