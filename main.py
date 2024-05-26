@@ -185,34 +185,6 @@ def prov_by_recs():
             'curr_recs')
 
 
-def food_by_adult():
-    # Read data
-    df = get_data(food_by_adult)
-
-    # Retrieve first column
-    col1 = df.columns[0]
-
-    # Loop through the columns
-    for curr_col in df.columns[1:]:
-        # Retrieve the 2 columns
-        df2 = df[[col1, curr_col]]
-
-        # Combine values that are a small portion of the total
-        df2 = create_other_category(df2, col1, curr_col)
-
-        # Capitalize the current column
-        title = ' '.join([_.capitalize() for _ in curr_col.split()])
-
-        # Retrieve column name
-        col_name = '_'.join([_.lower() for _ in curr_col.split()])
-
-        # Set file name
-        fname = 'food_by_%s' % col_name
-
-        # Create a pie chart
-        pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col, food_by_adult)
-
-
 def format_title(title):
     # Remove underscores
     title = ' '.join(title.split('_'))
@@ -247,6 +219,34 @@ def format_title(title):
     title = ' '.join(words)
 
     return title
+
+
+def food_by_adult():
+    # Read data
+    df = get_data(food_by_adult)
+
+    # Retrieve first column
+    col1 = df.columns[0]
+
+    # Loop through the columns
+    for curr_col in df.columns[1:]:
+        # Retrieve the 2 columns
+        df2 = df[[col1, curr_col]]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, col1, curr_col)
+
+        # Capitalize the current column
+        title = ' '.join([_.capitalize() for _ in curr_col.split()])
+
+        # Retrieve column name
+        col_name = '_'.join([_.lower() for _ in curr_col.split()])
+
+        # Set file name
+        fname = 'food_by_%s' % col_name
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col, food_by_adult)
 
 
 def adult_in_food():
