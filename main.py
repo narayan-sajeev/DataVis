@@ -271,6 +271,66 @@ def adult_by_food():
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y')
 
 
+def prov_by_food():
+    # Read data
+    df = get_data(prov_by_food)
+
+    # Group by province and calculate the sum
+    df = df.groupby('level_1', as_index=False).sum(numeric_only=True)
+
+    # Retrieve first column
+    col1 = df.columns[0]
+
+    # Loop through the columns
+    for curr_col in df.columns[1:]:
+        # Retrieve the 2 columns
+        df2 = df[[col1, curr_col]]
+
+        # Combine values that are a small portion of the total
+        df2 = create_other_category(df2, col1, curr_col)
+
+        # Remove underscores
+        title = ' '.join(curr_col.split('_'))
+
+        # Remove comma
+        title = ''.join(title.split(','))
+
+        # Capitalize the current row
+        title = ' '.join([_.capitalize() for _ in title.split()])
+
+        # Split the title into words
+        words = title.split()
+
+        # Loop through each word
+        for word in words:
+            # If that word repeats
+            if words.count(word) > 1:
+                # Find the index of the word
+                i = words.index(word)
+                # Remove the repeated words
+                new_words = words[:i + 1]
+                # Update the new words
+                words = list(new_words)
+
+        # Pluralize the last word
+        last = Pluralizer().pluralize(words[-1])
+
+        # Replace the last word
+        words[-1] = ''.join(last)
+
+        # Update the title
+        title = ' '.join(words)
+
+        # Retrieve column name
+        format_col = '_'.join([_.lower() for _ in title.split()])
+
+        # Set file name
+        fname = 'prov_by_%s' % format_col
+
+        # Create a pie chart
+        pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col)
+
+
 loc_by_pct()
 food_by_pct()
 adult_by_pct()
@@ -281,3 +341,4 @@ prov_by_food_count()
 prov_by_recs()
 food_by_adult()
 adult_by_food()
+prov_by_food()
