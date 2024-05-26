@@ -283,6 +283,11 @@ def prov_by_food():
 
     # Loop through the columns
     for curr_col in df.columns[1:]:
+
+        # Stop once adulterants are reached
+        if 'contaminant' in curr_col.lower():
+            return
+
         # Retrieve the 2 columns
         df2 = df[[col1, curr_col]]
 
