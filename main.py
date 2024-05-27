@@ -549,7 +549,7 @@ def adult_in_all_prov():
     df = create_other_category(df, 'x', 'y')
 
     # Create a pie chart
-    pie_cht(df, 'Distribution of Adulterants in All Provinces', adult_in_all_prov.__name__, 'x', 'y')
+    pie_cht(df, 'Distribution of Adulterant Types in All Provinces', adult_in_all_prov.__name__, 'x', 'y')
 
 
 def prov_by_all_adult():
