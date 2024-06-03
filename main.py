@@ -51,7 +51,7 @@ def pie_cht(df, title, fname, x='x', y='perc', subfolder=None):
     colors = cmap(np.linspace(1, 0.25, len(df[x])))
 
     # Set the size of the plot
-    plt.figure(figsize=(10, 6))
+    # plt.figure(figsize=(10, 6))
     # Capitalize the labels
     labels = [' '.join(label.split('_')).title() for label in df[x]]
     # Create a pie chart
@@ -62,11 +62,11 @@ def pie_cht(df, title, fname, x='x', y='perc', subfolder=None):
     folder = fname.split('_')[0]
     # If there are no special instructions on where to save the plot
     # if not subfolder:
-        # Save the plot
-        # plt.savefig('charts/%s/%s.png' % (folder, fname))
+    # Save the plot
+    # plt.savefig('charts/%s/%s.png' % (folder, fname))
     # else:
-        # Save the plot
-        # plt.savefig('charts/%s/%s/%s.png' % (folder, subfolder.__name__, fname))
+    # Save the plot
+    # plt.savefig('charts/%s/%s/%s.png' % (folder, subfolder.__name__, fname))
     # plt.show()
     # Wait before creating the next chart
     # plt.pause(2)
