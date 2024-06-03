@@ -286,6 +286,8 @@ def adult_in_food():
         # Create a pie chart
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y', adult_in_food)
 
+    return df
+
 
 def prov_by_food():
     # Read data
@@ -586,3 +588,199 @@ def prov_by_all_adult():
 
     # Create a pie chart
     pie_cht(df, 'Distribution of Provinces by All Adulterants', prov_by_all_adult.__name__, 'x', 'y')
+
+
+def get_all_adults():
+    # Read data
+    df = get_data(adult_by_fail)
+
+    # Return the first column
+    return list(df[df.columns[0]])
+
+
+def get_all_foods():
+    # Read data
+    df = get_data(food_by_fail)
+
+    # Return the first column
+    return list(df[df.columns[0]])
+
+
+def get_all_provinces():
+    # Read data
+    df = get_data(prov_by_recs)
+
+    # Return the first column
+    return list(df[df.columns[0]])
+
+
+def error(msg):
+    print('\n%s' % msg)
+    input('Press enter to continue.')
+    print()
+
+
+def print_options(options, type):
+    usr = ''
+    while not usr:
+        print('Choose 2 %s:\n' % type)
+        # Loop through the options
+        for i, option in enumerate(options):
+            if type != 'provinces':
+                # Format the option
+                option = format(option)
+            # Print the option
+            print('%s. %s' % (i + 1, option))
+
+        usr = input('\nEnter the number of the 2 %s to compare, separated by a space: ' % type)
+
+        # Clean the input
+        usr = usr.strip()
+
+        # Split the input
+        usr = usr.split()
+
+        # Check if there are 2 numbers
+        if len(usr) != 2:
+            usr = ''
+            error('Please enter 2 numbers separated by a space.')
+            continue
+
+        try:
+            # Convert the input to integers
+            usr = [int(num) for num in usr]
+
+            # Create a range of numbers from 1 to the length of the options
+            rng = range(1, len(options) + 1)
+
+            # Check if the numbers are within the range
+            if not all(num in rng for num in usr):
+                usr = ''
+                error('Please enter 2 valid numbers from 1 to %s.' % len(options))
+                continue
+
+            # Check if the numbers are not the same
+            if usr[0] == usr[1]:
+                usr = ''
+                error('Please enter 2 different numbers.')
+                continue
+
+
+        except:
+            usr = ''
+            error('Please enter 2 numbers separated by a space.')
+            continue
+
+    # Retrieve the options chosen
+    options = [option for i, option in enumerate(options) if i + 1 in usr]
+
+    return options
+
+
+def get_type(usr):
+    for _ in ['adulterants', 'foods']:
+        if usr in _:
+            return _
+
+    return 'provinces'
+
+
+def bar_cht(func, selected):
+    # Read data
+    data = func()
+
+    # Retrieve the first column
+    col1 = data[data.columns[0]]
+
+    # Format the first column
+    formatted = [format(_) for _ in list(col1)]
+
+    # Update the first column
+    data[data.columns[0]] = formatted
+
+    # Set the first column as the index
+    data.set_index(data.columns[0], inplace=True)
+
+    # Retrieve the selected columns
+    data = data.loc[:, selected]
+
+    # Clear the plot
+    plt.clf()
+
+    # Select 2 largest rows from each selected column
+    df = pd.concat([data.nlargest(2, selected[0]), data.nlargest(2, selected[1])])
+
+    # Create a grouped bar chart
+    bar_width = 0.4
+
+    index = np.arange(len(df.index))
+
+    # Create the bars
+    bar1 = plt.bar(index, df[selected[0]], bar_width, label=selected[0])
+    bar2 = plt.bar(index + bar_width, df[selected[1]], bar_width, label=selected[1])
+
+    title = ' and '.join([format(_) for _ in selected])
+
+    # Set the title and labels
+    plt.title('Comparison of %s' % title)
+    plt.xlabel('Category')
+    plt.ylabel('Count')
+
+    # Set the x-axis labels
+    plt.xticks(index + bar_width / 2, df.index)
+
+    # Adding legend
+    plt.legend()
+
+    # Show the plot
+    plt.show()
+
+
+def comp_2():
+    # usr = input('Compare 2 adulterants, foods, or provinces? (a/f/p) ')
+    usr = 'a'
+    if usr == 'a':
+        adults = get_all_adults()
+        # selected = print_options(adults, get_type(usr))
+        selected = ['Pesticide and veterinary drug', 'Nutrient supplement']
+        # usr2 = input('Compare %s across foods or provinces? (f/p) ' % ', '.join(selected))
+        usr2 = 'f'
+        if usr2 == 'f':
+            bar_cht(adult_in_food, selected)
+        elif usr2 == 'p':
+            bar_cht(adult_in_prov, selected)
+        else:
+            print('Invalid input.')
+            quit()
+    elif usr == 'f':
+        foods = get_all_foods()
+        selected = print_options(foods, get_type(usr))
+        usr2 = input('Compare %s across adulterants or provinces? (a/p) ' % ', '.join(selected))
+        if usr2 == 'a':
+            bar_cht(food_by_adult, selected)
+        elif usr2 == 'p':
+            bar_cht(food_in_prov, selected)
+        else:
+            print('Invalid input.')
+            quit()
+    elif usr == 'p':
+        provinces = get_all_provinces()
+        selected = print_options(provinces, get_type(usr))
+        usr2 = input('Compare %s across adulterants or foods? (a/f) ' % ', '.join(selected))
+        if usr2 == 'a':
+            bar_cht(prov_by_adult, selected)
+        elif usr2 == 'f':
+            bar_cht(prov_by_food, selected)
+        else:
+            print('Invalid input.')
+            quit()
+    else:
+        print('Invalid input.')
+        quit()
+
+
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option('display.max_rows', None)
+comp_2()
