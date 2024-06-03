@@ -185,6 +185,9 @@ def prov_by_recs():
             'curr_recs')
 
 
+def capitalize(s):
+    return ' '.join([_.capitalize() for _ in s.split()])
+
 def format_title(title):
     # Remove underscores
     title = ' '.join(title.split('_'))
@@ -193,7 +196,7 @@ def format_title(title):
     title = ''.join(title.split(','))
 
     # Capitalize
-    title = ' '.join([_.capitalize() for _ in title.split()])
+    title = capitalize(title)
 
     # Split the title into words
     words = title.split()
@@ -237,7 +240,7 @@ def food_by_adult():
         df2 = create_other_category(df2, col1, curr_col)
 
         # Capitalize the current column
-        title = ' '.join([_.capitalize() for _ in curr_col.split()])
+        title = capitalize(curr_col)
 
         # Retrieve column name
         col_name = '_'.join([_.lower() for _ in curr_col.split()])
@@ -348,7 +351,7 @@ def food_in_prov():
         df2 = create_other_category(df2, 'x', 'y')
 
         # Capitalize the current column
-        title = ' '.join([_.capitalize() for _ in food.split()])
+        title = capitalize(food)
 
         # Retrieve column name
         col_name = '_'.join([_.lower() for _ in food.split()])
@@ -422,7 +425,7 @@ def adult_in_prov():
         df2 = create_other_category(df2, 'x', 'y')
 
         # Capitalize the current column
-        title = ' '.join([_.capitalize() for _ in food.split()])
+        title = capitalize(food)
 
         # Retrieve column name
         col_name = '_'.join([_.lower() for _ in food.split()])
