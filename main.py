@@ -252,6 +252,8 @@ def food_by_adult():
         # Create a pie chart
         pie_cht(df2, 'Distribution of Food Types by %s' % title, fname, col1, curr_col, food_by_adult)
 
+    return df
+
 
 def adult_in_food():
     # Read data
@@ -324,6 +326,8 @@ def prov_by_food():
         # Create a pie chart
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_food)
 
+    return df
+
 
 def food_in_prov():
     # Read data
@@ -365,6 +369,8 @@ def food_in_prov():
         # Create a pie chart
         pie_cht(df2, 'Distribution of Food Types in %s' % title, fname, 'x', 'y', food_in_prov)
 
+    return df
+
 
 def prov_by_adult():
     # Read data
@@ -398,6 +404,8 @@ def prov_by_adult():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_adult)
+
+    return df
 
 
 def adult_in_prov():
@@ -438,6 +446,8 @@ def adult_in_prov():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Adulterant Types in %s' % title, fname, 'x', 'y', adult_in_prov)
+
+    return df
 
 
 def adult_in_all_food():
@@ -737,14 +747,12 @@ def bar_cht(func, selected):
 
 
 def comp_2():
-    # usr = input('Compare 2 adulterants, foods, or provinces? (a/f/p) ')
-    usr = 'a'
+    usr = input('Compare 2 adulterants, foods, or provinces? (a/f/p) ')
     if usr == 'a':
         adults = get_all_adults()
-        # selected = print_options(adults, get_type(usr))
-        selected = ['Pesticide and veterinary drug', 'Nutrient supplement']
-        # usr2 = input('Compare %s across foods or provinces? (f/p) ' % ', '.join(selected))
-        usr2 = 'f'
+        selected = print_options(adults, get_type(usr))
+        formatted = [format(_) for _ in selected]
+        usr2 = input('Compare \'%s\' across foods or provinces? (f/p) ' % ' & '.join(formatted))
         if usr2 == 'f':
             bar_cht(adult_in_food, selected)
         elif usr2 == 'p':
@@ -755,7 +763,8 @@ def comp_2():
     elif usr == 'f':
         foods = get_all_foods()
         selected = print_options(foods, get_type(usr))
-        usr2 = input('Compare %s across adulterants or provinces? (a/p) ' % ', '.join(selected))
+        formatted = [format(_) for _ in selected]
+        usr2 = input('Compare \'%s\' across adulterants or provinces? (a/p) ' % ' & '.join(formatted))
         if usr2 == 'a':
             bar_cht(food_by_adult, selected)
         elif usr2 == 'p':
@@ -766,7 +775,8 @@ def comp_2():
     elif usr == 'p':
         provinces = get_all_provinces()
         selected = print_options(provinces, get_type(usr))
-        usr2 = input('Compare %s across adulterants or foods? (a/f) ' % ', '.join(selected))
+        formatted = [format(_) for _ in selected]
+        usr2 = input('Compare \'%s\' across adulterants or foods? (a/f) ' % ' & '.join(formatted))
         if usr2 == 'a':
             bar_cht(prov_by_adult, selected)
         elif usr2 == 'f':
@@ -779,8 +789,4 @@ def comp_2():
         quit()
 
 
-pd.set_option('display.max_columns', None)
-pd.set_option('display.width', None)
-pd.set_option('display.max_colwidth', None)
-pd.set_option('display.max_rows', None)
 comp_2()
