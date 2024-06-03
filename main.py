@@ -702,11 +702,13 @@ def bar_cht(func, selected):
     # Retrieve the first column
     col1 = df[df.columns[0]]
 
-    # Format the first column
-    formatted = [format(_) for _ in list(col1)]
+    # If the column does not contain provinces
+    if col1.name != 'level_1':
+        # Format the column
+        col1 = [format(_) for _ in list(col1)]
 
     # Update the first column
-    df[df.columns[0]] = formatted
+    df[df.columns[0]] = col1
 
     # Set the first column as the index
     df.set_index(df.columns[0], inplace=True)
