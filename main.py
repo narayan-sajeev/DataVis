@@ -697,28 +697,28 @@ def get_type(usr):
 
 def bar_cht(func, selected):
     # Read data
-    data = func()
+    df = func()
 
     # Retrieve the first column
-    col1 = data[data.columns[0]]
+    col1 = df[df.columns[0]]
 
     # Format the first column
     formatted = [format(_) for _ in list(col1)]
 
     # Update the first column
-    data[data.columns[0]] = formatted
+    df[df.columns[0]] = formatted
 
     # Set the first column as the index
-    data.set_index(data.columns[0], inplace=True)
+    df.set_index(df.columns[0], inplace=True)
 
     # Retrieve the selected columns
-    data = data.loc[:, selected]
+    df = df.loc[:, selected]
 
     # Clear the plot
     plt.clf()
 
     # Select 2 largest rows from each selected column
-    df = pd.concat([data.nlargest(2, selected[0]), data.nlargest(2, selected[1])])
+    df = pd.concat([df.nlargest(2, selected[0]), df.nlargest(2, selected[1])])
 
     # Create a grouped bar chart
     bar_width = 0.4
