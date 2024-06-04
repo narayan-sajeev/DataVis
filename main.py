@@ -55,7 +55,7 @@ def pie_cht(df, title, fname, x='x', y='perc', subfolder=None):
     # Capitalize the labels
     labels = [' '.join(label.split('_')).title() for label in df[x]]
     # Create a pie chart
-    plt.pie(df[y], labels=labels, colors=colors, autopct='%.1f%%')
+    plt.pie(df[y], labels=labels, colors=colors, autopct='%.1f%%', pctdistance=0.85)
     # Set the title of the plot
     plt.title(title)
     # Retrieve the name of the folder to save the plot
@@ -831,6 +831,3 @@ def comp_2():
     else:
         print('Invalid input.')
         quit()
-
-
-comp_2()
