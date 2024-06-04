@@ -17,7 +17,7 @@ def rename_categories(df):
     return df
 
 
-def create_other_category(df, x='x', y='perc', threshold=3):
+def create_other_category(df, x='x', y='perc', threshold=5):
     # Convert threshold to a percentage of the total of the column
     threshold *= df[y].sum() / 100
     # Combine values that are a small portion of the total
