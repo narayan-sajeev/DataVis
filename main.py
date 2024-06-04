@@ -326,6 +326,15 @@ def prov_by_food():
         # Create a pie chart
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_food)
 
+    # Transpose the DataFrame
+    df = df.T
+
+    # Delete the first row
+    df = df.iloc[1:]
+
+    # Reset the index
+    df.reset_index(inplace=True)
+
     return df
 
 
@@ -404,6 +413,18 @@ def prov_by_adult():
 
         # Create a pie chart
         pie_cht(df2, 'Distribution of Provinces by %s' % title, fname, col1, curr_col, prov_by_adult)
+
+    # Set the index as the first column
+    df.set_index(col1, inplace=True)
+
+    # Slice the DataFrame
+    df = df.iloc[:, idx - 1:]
+
+    # Transpose the DataFrame
+    df = df.T
+
+    # Reset the index
+    df.reset_index(inplace=True)
 
     return df
 
@@ -703,7 +724,7 @@ def bar_cht(func, selected):
     col1 = df[df.columns[0]]
 
     # If the column does not contain provinces
-    if col1.name != 'level_1':
+    if 'level' not in col1.name:
         # Format the column
         col1 = [format(_) for _ in list(col1)]
 
@@ -740,7 +761,20 @@ def bar_cht(func, selected):
     bar1 = plt.bar(index, df[selected[0]], bar_width, label=selected[0])
     bar2 = plt.bar(index + bar_width, df[selected[1]], bar_width, label=selected[1])
 
-    title = ' and '.join([format(_) for _ in selected])
+    # Set the title
+    title = ' and '.join(selected)
+
+    try:
+        # If the column does not contain provinces
+        if 'level' not in df.iloc[0].name:
+            title = ' and '.join([format(_) for _ in selected])
+    except:
+        try:
+            # If the column does not contain provinces
+            if 'level' not in df.iloc[0].index.name:
+                title = ' and '.join([format(_) for _ in selected])
+        except:
+            pass
 
     # Set the title and labels
     plt.title('Comparison of %s' % title)
