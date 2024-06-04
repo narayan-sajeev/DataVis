@@ -719,8 +719,17 @@ def bar_cht(func, selected):
     # Clear the plot
     plt.clf()
 
-    # Select 2 largest rows from each selected column
-    df = pd.concat([df.nlargest(2, selected[0]), df.nlargest(2, selected[1])])
+    # Get the top 2 rows with the greatest values in the first column
+    top2_first_col = df.nlargest(2, df.columns[0])
+
+    # Get the top 2 rows with the greatest values in the second column
+    top2_second_col = df.nlargest(2, df.columns[1])
+
+    # Concatenate the two dataframes
+    df = pd.concat([top2_first_col, top2_second_col])
+
+    # Drop duplicates
+    df = df.drop_duplicates()
 
     # Create a grouped bar chart
     bar_width = 0.4
@@ -777,8 +786,7 @@ def comp_2():
     elif usr == 'p':
         provinces = get_all_provinces()
         selected = print_options(provinces, get_type(usr))
-        formatted = [format(_) for _ in selected]
-        usr2 = input('Compare \'%s\' across adulterants or foods? (a/f) ' % ' & '.join(formatted))
+        usr2 = input('Compare \'%s\' across adulterants or foods? (a/f) ' % ' & '.join(selected))
         if usr2 == 'a':
             bar_cht(prov_by_adult, selected)
         elif usr2 == 'f':
