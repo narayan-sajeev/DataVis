@@ -831,3 +831,21 @@ def comp_2():
     else:
         print('Invalid input.')
         quit()
+
+
+def prov_by_cnt():
+    # Read data
+    df = get_data(prov_by_cnt)
+
+    # Group by province and calculate the sum
+    df = df.groupby('data_source_province', as_index=False).sum(numeric_only=True)
+
+    # Combine the category names
+    df = rename_categories(df)
+
+    # Combine values that are a small portion of the total
+    df = create_other_category(df, 'data_source_province', 'new_count')
+
+    # Create a pie chart
+    pie_cht(df, 'Distribution of Provinces by New Count', prov_by_cnt.__name__, 'data_source_province',
+            'new_count')
